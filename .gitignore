@@ -13,7 +13,4 @@
 
 .idea/inspectionProfiles/
 lib/
-target/classes/entity/
-target/classes/util/
-target/generated-sources/
-target/test-classes/
+target
