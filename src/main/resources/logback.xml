@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.hibernate.type" level="ALL" />
+    <!--<logger name="org.hibernate.type" level="ALL" />-->
     <logger name="org.hibernate.SQL" level="ALL"/>
     <!--<logger name="org.hibernate" level="DEBUG" />-->
 

@@ -1,11 +1,11 @@
-package entity.student
+package entity.student.eager
 
 import groovy.transform.Canonical
 import groovy.transform.TupleConstructor
 
 import javax.persistence.*
 
-@Entity
+@Entity(name = "eager_guide")
 @TupleConstructor(excludes = "id, students")
 @Canonical(excludes = "students")
 class Guide {

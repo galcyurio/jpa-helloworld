@@ -1,7 +1,7 @@
 package jpa
 
-import entity.student.Guide
-import entity.student.Student
+import entity.student.eager.Guide
+import entity.student.eager.Student
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -49,7 +49,7 @@ class StudentJpqlTest {
     void findAllStudentsSpecificFieldsWithoutGuide__mustReturnStudentsSpecificFields() throws Exception {
         def students = null
         HibernateUtil.execute({ EntityManager em ->
-            students = em.createQuery("select s.name, s.enrollmentId from Student s").resultList
+            students = em.createQuery("select s.name, s.enrollmentId from eager_student s").resultList
         })
 
         assertNotNull(students)
@@ -61,7 +61,7 @@ class StudentJpqlTest {
     void findAllGuidesSpecificFieldsWithoutStudents__mustReturn() throws Exception {
         def guides = null
         HibernateUtil.execute { EntityManager em ->
-            guides = em.createQuery("select g.name, g.staffId from Guide g").resultList
+            guides = em.createQuery("select g.name, g.staffId from eager_guide g").resultList
         }
 
         assertTrue(guides != null && guides.size() != 0)
@@ -74,7 +74,7 @@ class StudentJpqlTest {
     void findAllStudents__mustReturnAllStudents() throws Exception {
         def students = null
         HibernateUtil.execute { EntityManager em ->
-            students = em.createQuery("select s from Student s").getResultList()
+            students = em.createQuery("select s from eager_student s").getResultList()
         }
 
         assertTrue(students != null && students.size() != 0)
@@ -97,7 +97,7 @@ class StudentJpqlTest {
     @Test
     void findSpecificFields__mustReturnSpecificFields() throws Exception {
         HibernateUtil.execute { EntityManager em ->
-            def list = em.createQuery("select s.name from Student s").resultList
+            def list = em.createQuery("select s.name from eager_student s").resultList
             list.each { println it }
         }
     }
@@ -110,7 +110,7 @@ class StudentJpqlTest {
         HibernateUtil.execute { EntityManager em ->
             em.persist(guide1)
 
-            def guide2 = em.createQuery("select g from Guide g where g.staffId = :staffId")
+            def guide2 = em.createQuery("select g from eager_guide g where g.staffId = :staffId")
                     .setParameter("staffId", guide1.staffId)
                     .resultList
 
@@ -132,7 +132,7 @@ class StudentJpqlTest {
             em.persist(guide2)
             em.persist(guide3)
 
-            List<Guide> guides = em.createQuery("select g from Guide g where g.name like 'A%'").resultList
+            List<Guide> guides = em.createQuery("select g from eager_guide g where g.name like 'A%'").resultList
 
             guides.each {
                 println it
@@ -190,7 +190,7 @@ class StudentJpqlTest {
             em.persist(guide1)
             em.persist(guide2)
 
-            List<Integer> resultList = em.createQuery("select min(g.salary), max(g.salary) from Guide g").singleResult as List<Integer>
+            List<Integer> resultList = em.createQuery("select min(g.salary), max(g.salary) from eager_guide g").singleResult as List<Integer>
             resultList.sort()   // for safe
 
             assertTrue(resultList[0] <= guide1.salary)
@@ -203,7 +203,7 @@ class StudentJpqlTest {
     @Test
     void findStudentsWithGuideUsingInnerJoin__mustReturnMatchingValuesInBoth() throws Exception {
         HibernateUtil.execute { EntityManager em ->
-            List<Student> students = em.createQuery("select s from Student s inner join s.guide g").resultList
+            List<Student> students = em.createQuery("select s from eager_student s inner join s.guide g").resultList
             students.each {
                 println it
                 assertNotNull(it.guide)
@@ -215,7 +215,7 @@ class StudentJpqlTest {
     void findStudentsWithGuideUsingLeftJoin__mustReturnAllOfStudentsThatMatchedGuide() throws Exception {
         List<Student> students = null
         HibernateUtil.execute { EntityManager em ->
-            students = em.createQuery("select s from Student s left outer join s.guide g").resultList
+            students = em.createQuery("select s from eager_student s left outer join s.guide g").resultList
 
             assertNotNull(students)
             assertTrue(students.size() != 0)
@@ -230,7 +230,7 @@ class StudentJpqlTest {
     void findStudentsWithGuideUsingRightJoin__mustReturnAllGuidesThatMatchesStudent() throws Exception {
         List<Student> students = null
         HibernateUtil.execute { EntityManager em ->
-            students = em.createQuery("select s from Student s right outer join s.guide g").resultList
+            students = em.createQuery("select s from eager_student s right outer join s.guide g").resultList
 
             assertNotNull(students)
             assertTrue(students.size() != 0)
@@ -250,7 +250,7 @@ class StudentJpqlTest {
     @Test
     void findStudentsWithMultipleQueryLikesLazyFetch__mustReturn() throws Exception {
         HibernateUtil.execute { EntityManager em ->
-            println em.createQuery("select s from Student s inner join s.guide g").resultList
+            println em.createQuery("select s from eager_student s inner join s.guide g").resultList
         }
     }
 
@@ -260,7 +260,7 @@ class StudentJpqlTest {
     @Test
     void findStudentsWithOneQueryLikesEagerFetch__mustReturn() throws Exception {
         HibernateUtil.execute { EntityManager em ->
-            em.createQuery("select s from Student s inner join fetch s.guide g").resultList.each {
+            em.createQuery("select s from eager_student s inner join fetch s.guide g").resultList.each {
                 println it
             }
         }

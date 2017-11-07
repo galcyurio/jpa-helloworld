@@ -1,11 +1,11 @@
-package entity.student
+package entity.student.lazy
 
 import groovy.transform.Canonical
 import groovy.transform.TupleConstructor
 
 import javax.persistence.*
 
-@Entity
+@Entity(name = "lazy_student")
 @TupleConstructor(excludes = "id, guide")
 @Canonical
 class Student {
@@ -18,7 +18,7 @@ class Student {
     String enrollmentId;
     String name;
 
-    @ManyToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE])
+    @ManyToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE], fetch = FetchType.LAZY)
     @JoinColumn(name = "guide_id")
     Guide guide;
 
