@@ -1,7 +1,7 @@
 package jpa
 
-import entity.student.Guide
-import entity.student.Student
+import entity.student.eager.Guide
+import entity.student.eager.Student
 import org.hibernate.LazyInitializationException
 import org.junit.After
 import org.junit.Before
