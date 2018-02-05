@@ -12,15 +12,15 @@ class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long id
 
     @Column(name = "enrollment_id", nullable = false)
-    String enrollmentId;
-    String name;
+    String enrollmentId
+    String name
 
     @ManyToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE], fetch = FetchType.LAZY)
     @JoinColumn(name = "guide_id")
-    Guide guide;
+    Guide guide
 
     Student(String enrollmentId = UUID.randomUUID().toString(), String name = "Jane") {
         this.enrollmentId = enrollmentId

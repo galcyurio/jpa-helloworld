@@ -12,11 +12,11 @@ class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long id
 
     @Column(nullable = false)
-    String name;
+    String name
 
     @Embedded
-    Address address;
+    Address address
 }

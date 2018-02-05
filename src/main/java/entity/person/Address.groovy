@@ -7,7 +7,7 @@ import javax.persistence.Embeddable
 @Canonical
 @Embeddable
 class Address {
-    String street;
-    String city;
-    String zipcode;
+    String street
+    String city
+    String zipcode
 }

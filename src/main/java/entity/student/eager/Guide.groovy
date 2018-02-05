@@ -14,7 +14,7 @@ class Guide {
     Long id
 
     @Column(name = "staff_id", nullable = false)
-    String staffId;
+    String staffId
     String name
     Integer salary
 
